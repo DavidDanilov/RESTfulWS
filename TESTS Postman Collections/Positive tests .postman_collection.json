@@ -78,7 +78,7 @@
 							"});",
 							"",
 							"pm.collectionVariables.set(\"apiJson\", JSON.stringify(jsonData));",
-							"postman.setNextRequest(\"Get all employees repeat\");"
+							"postman.setNextRequest(\"Get employees request is idempotent\");"
 						],
 						"type": "text/javascript"
 					}
@@ -246,7 +246,7 @@
 							"});",
 							"",
 							"pm.collectionVariables.set(\"apiJson\", JSON.stringify(jsonData));",
-							"postman.setNextRequest(\"Get employee by id repeat\");"
+							"postman.setNextRequest(\"Get employee request is idempotent\");"
 						],
 						"type": "text/javascript"
 					}
@@ -1202,13 +1202,6 @@
 				}
 			},
 			"response": []
-		}
-	],
-	"variable": [
-		{
-			"id": "9385b6be-6784-498b-be9d-57c042214d11",
-			"key": "apiJson",
-			"value": ""
 		}
 	],
 	"protocolProfileBehavior": {}
