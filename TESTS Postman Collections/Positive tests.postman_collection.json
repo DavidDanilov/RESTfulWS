@@ -1,0 +1,1215 @@
+{
+	"info": {
+		"_postman_id": "25e2d1bf-9d9c-47c6-a908-22c3794cdb0c",
+		"name": "Positive tests ",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Get all employees",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "1849d66b-65c8-4b77-aacf-fa2d8bfd5750",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"pm.test(\"Response time is less than 400ms\", function () {",
+							"    pm.expect(pm.response.responseTime).to.be.below(400);",
+							"});",
+							"",
+							"const jsonData = pm.response.json();",
+							"",
+							"var schema = {",
+							"    \"type\": \"array\",",
+							"        \"items\": [",
+							"            {",
+							"            \"type\": \"object\",",
+							"            \"properties\": {",
+							"                \"last_name\": {",
+							"                    \"type\": \"string\",",
+							"                    \"pattern\": \"^[A-Z]+[a-z]*$\"",
+							"                },",
+							"                \"id\": {",
+							"                    \"type\": \"integer\"",
+							"                },",
+							"                \"first_name\": {",
+							"                    \"type\": \"string\",",
+							"                    \"pattern\": \"^[A-Z]+[a-z]*$\"",
+							"                } ",
+							"            },",
+							"            \"required\": [",
+							"                \"last_name\",",
+							"                \"id\",",
+							"                \"first_name\"",
+							"            ]",
+							"            }",
+							"        ]",
+							"};",
+							"",
+							"pm.test('Schema is valid', function () {",
+							"    pm.expect(tv4.validate(jsonData, schema)).to.be.true;",
+							"});",
+							"",
+							"pm.test(\"Content-Type is present\", function () {",
+							"    pm.response.to.have.header(\"Content-Type\");",
+							"});",
+							"",
+							"pm.test(\"Content-Type header is application/json\", () => {",
+							"  pm.expect(pm.response.headers.get('Content-Type')).to.eql('application/json');",
+							"});",
+							"",
+							"pm.test(\"Connection is present\", function () {",
+							"    pm.response.to.have.header(\"connection\");",
+							"});",
+							"",
+							"pm.test(\"Keep-alive is present\", function () {",
+							"    pm.response.to.have.header(\"keep-alive\");",
+							"});",
+							"",
+							"pm.test(\"X-Powered-By isn't present\", function () {",
+							"    pm.response.to.not.have.header(\"X-Powered-By\");",
+							"});",
+							"",
+							"pm.test(\"Server isn't present\", function () {",
+							"    pm.response.to.not.have.header(\"Server\");",
+							"});",
+							"",
+							"pm.collectionVariables.set(\"apiJson\", JSON.stringify(jsonData));",
+							"postman.setNextRequest(\"Get all employees repeat\");"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "1e87a59d-015e-48db-a3a4-5d62e0a61bb0",
+						"exec": [
+							"pm.collectionVariables.unset(\"apiJson\");"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://ec2-18-188-111-23.us-east-2.compute.amazonaws.com:8080/WSTest/employees",
+					"protocol": "http",
+					"host": [
+						"ec2-18-188-111-23",
+						"us-east-2",
+						"compute",
+						"amazonaws",
+						"com"
+					],
+					"port": "8080",
+					"path": [
+						"WSTest",
+						"employees"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get employees request is idempotent",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "58c84a5b-04d3-40fb-b6a5-7b27d579f455",
+						"exec": [
+							"pm.test(\"GET query is idempotent\", function () {",
+							"    //pm.expect(pm.response.json() == pm.collectionVariables.get(\"apiJson\"));",
+							"    pm.expect(JSON.stringify(pm.response.json())).to.eql(pm.collectionVariables.get(\"apiJson\"));",
+							"});",
+							"",
+							"pm.collectionVariables.unset(\"apiJson\");",
+							"",
+							"postman.setNextRequest(\"Get employee by id\");"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://ec2-18-188-111-23.us-east-2.compute.amazonaws.com:8080/WSTest/employees",
+					"protocol": "http",
+					"host": [
+						"ec2-18-188-111-23",
+						"us-east-2",
+						"compute",
+						"amazonaws",
+						"com"
+					],
+					"port": "8080",
+					"path": [
+						"WSTest",
+						"employees"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get employee by id",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "6c254c77-7297-4067-8f46-c83fe506b045",
+						"exec": [
+							"pm.collectionVariables.unset(\"apiJson\");"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "4b962ada-9c41-4eb4-bc6c-d3ef20fa852b",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"pm.test(\"Response time is less than 300ms\", function () {",
+							"    pm.expect(pm.response.responseTime).to.be.below(300);",
+							"});",
+							"",
+							"const jsonData = pm.response.json();",
+							"",
+							"var schema = {",
+							"    \"type\": \"array\",",
+							"        \"items\": [",
+							"            {",
+							"            \"type\": \"object\",",
+							"            \"properties\": {",
+							"                \"last_name\": {",
+							"                    \"type\": \"string\",",
+							"                    \"pattern\": \"^[A-Z]+[a-z]*$\"",
+							"                },",
+							"                \"id\": {",
+							"                    \"type\": \"integer\"",
+							"                },",
+							"                \"first_name\": {",
+							"                    \"type\": \"string\",",
+							"                    \"pattern\": \"^[A-Z]+[a-z]*$\"",
+							"                } ",
+							"            },",
+							"            \"required\": [",
+							"                \"last_name\",",
+							"                \"id\",",
+							"                \"first_name\"",
+							"            ]",
+							"            }",
+							"        ]",
+							"};",
+							"",
+							"pm.test('Schema is valid', function () {",
+							"    pm.expect(tv4.validate(jsonData, schema)).to.be.true;",
+							"});",
+							"",
+							"pm.test(\"Content-Type is present\", function () {",
+							"    pm.response.to.have.header(\"Content-Type\");",
+							"});",
+							"",
+							"pm.test(\"Content-Type header is application/json\", () => {",
+							"  pm.expect(pm.response.headers.get('Content-Type')).to.eql('application/json');",
+							"});",
+							"",
+							"pm.test(\"Connection is present\", function () {",
+							"    pm.response.to.have.header(\"connection\");",
+							"});",
+							"",
+							"pm.test(\"Keep-alive is present\", function () {",
+							"    pm.response.to.have.header(\"keep-alive\");",
+							"});",
+							"",
+							"pm.test(\"X-Powered-By isn't present\", function () {",
+							"    pm.response.to.not.have.header(\"X-Powered-By\");",
+							"});",
+							"",
+							"pm.test(\"Server isn't present\", function () {",
+							"    pm.response.to.not.have.header(\"Server\");",
+							"});",
+							"",
+							"pm.test(\"Record ID equasl 1\", function () {",
+							"    pm.expect(jsonData[0].id).to.eql(1);",
+							"});",
+							"",
+							"pm.collectionVariables.set(\"apiJson\", JSON.stringify(jsonData));",
+							"postman.setNextRequest(\"Get employee by id repeat\");"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://ec2-18-188-111-23.us-east-2.compute.amazonaws.com:8080/WSTest/employee?id=1",
+					"protocol": "http",
+					"host": [
+						"ec2-18-188-111-23",
+						"us-east-2",
+						"compute",
+						"amazonaws",
+						"com"
+					],
+					"port": "8080",
+					"path": [
+						"WSTest",
+						"employee"
+					],
+					"query": [
+						{
+							"key": "id",
+							"value": "1"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get employee request is idempotent",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "3a498e1a-08ff-49b5-81cd-3e41f0da3142",
+						"exec": [
+							"pm.test(\"GET query is idempotent\", function () {",
+							"    //pm.expect(pm.response.json() == pm.collectionVariables.get(\"apiJson\"));",
+							"    pm.expect(JSON.stringify(pm.response.json())).to.eql(pm.collectionVariables.get(\"apiJson\"));",
+							"});",
+							"",
+							"pm.collectionVariables.unset(\"apiJson\");",
+							"postman.setNextRequest(\"Post new employee preconditions\");"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://ec2-18-188-111-23.us-east-2.compute.amazonaws.com:8080/WSTest/employee?id=1",
+					"protocol": "http",
+					"host": [
+						"ec2-18-188-111-23",
+						"us-east-2",
+						"compute",
+						"amazonaws",
+						"com"
+					],
+					"port": "8080",
+					"path": [
+						"WSTest",
+						"employee"
+					],
+					"query": [
+						{
+							"key": "id",
+							"value": "1"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Post new employee preconditions",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "cbd972f4-fbe9-46dc-a5b7-187bb6fd6fd5",
+						"exec": [
+							"pm.test(\"Record doesn't exist\", function () {",
+							"    pm.response.to.have.status(404);",
+							"});",
+							"",
+							"postman.setNextRequest(\"Post new employee\");"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "2961d3e2-7d38-4f1c-be78-6e17a60051b9",
+						"exec": [
+							"pm.collectionVariables.unset(\"precontitions\");"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://ec2-18-188-111-23.us-east-2.compute.amazonaws.com:8080/WSTest/employee?id=10",
+					"protocol": "http",
+					"host": [
+						"ec2-18-188-111-23",
+						"us-east-2",
+						"compute",
+						"amazonaws",
+						"com"
+					],
+					"port": "8080",
+					"path": [
+						"WSTest",
+						"employee"
+					],
+					"query": [
+						{
+							"key": "id",
+							"value": "10"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Post new employee",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "0931c76a-12f5-454f-bd30-2f413d0bd738",
+						"exec": [
+							"pm.test(\"Status code is 201\", function () {",
+							"    pm.response.to.have.status(201);",
+							"});",
+							"",
+							"pm.test(\"Status is Created\", function () {",
+							"    pm.expect(pm.response.text()).to.include(\"Created\");",
+							"});",
+							"",
+							"pm.test(\"Response time is less than 300ms\", function () {",
+							"    pm.expect(pm.response.responseTime).to.be.below(300);",
+							"});",
+							"",
+							"pm.test(\"Content-Type is present\", function () {",
+							"    pm.response.to.have.header(\"Content-Type\");",
+							"});",
+							"",
+							"pm.test(\"Connection is present\", function () {",
+							"    pm.response.to.have.header(\"connection\");",
+							"});",
+							"",
+							"pm.test(\"Keep-alive is present\", function () {",
+							"    pm.response.to.have.header(\"keep-alive\");",
+							"});",
+							"",
+							"pm.test(\"X-Powered-By isn't present\", function () {",
+							"    pm.response.to.not.have.header(\"X-Powered-By\");",
+							"});",
+							"",
+							"pm.test(\"Server isn't present\", function () {",
+							"    pm.response.to.not.have.header(\"Server\");",
+							"});",
+							"",
+							"postman.setNextRequest(\"Post new employee postcondition\");"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://ec2-18-188-111-23.us-east-2.compute.amazonaws.com:8080/WSTest/employee?id=10&first_name=John&last_name=Smith",
+					"protocol": "http",
+					"host": [
+						"ec2-18-188-111-23",
+						"us-east-2",
+						"compute",
+						"amazonaws",
+						"com"
+					],
+					"port": "8080",
+					"path": [
+						"WSTest",
+						"employee"
+					],
+					"query": [
+						{
+							"key": "id",
+							"value": "10"
+						},
+						{
+							"key": "first_name",
+							"value": "John"
+						},
+						{
+							"key": "last_name",
+							"value": "Smith"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Post new employee postcondition",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "a0af24c9-9b21-4e2c-8a11-2078fde6bea7",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"pm.test(\"Response time is less than 300ms\", function () {",
+							"    pm.expect(pm.response.responseTime).to.be.below(300);",
+							"});",
+							"",
+							"const jsonData = pm.response.json();",
+							"",
+							"var schema = {",
+							"    \"type\": \"array\",",
+							"        \"items\": [",
+							"            {",
+							"            \"type\": \"object\",",
+							"            \"properties\": {",
+							"                \"last_name\": {",
+							"                    \"type\": \"string\",",
+							"                    \"pattern\": \"^[A-Z]+[a-z]*$\"",
+							"                },",
+							"                \"id\": {",
+							"                    \"type\": \"integer\"",
+							"                },",
+							"                \"first_name\": {",
+							"                    \"type\": \"string\",",
+							"                    \"pattern\": \"^[A-Z]+[a-z]*$\"",
+							"                } ",
+							"            },",
+							"            \"required\": [",
+							"                \"last_name\",",
+							"                \"id\",",
+							"                \"first_name\"",
+							"            ]",
+							"            }",
+							"        ]",
+							"};",
+							"",
+							"pm.test('Schema is valid', function () {",
+							"    pm.expect(tv4.validate(jsonData, schema)).to.be.true;",
+							"});",
+							"",
+							"pm.test(\"Record ID equasl 10\", function () {",
+							"    pm.expect(jsonData[0].id).to.eql(10);",
+							"});",
+							"",
+							"pm.test(\"Record first_name equasl John\", function () {",
+							"    pm.expect(jsonData[0].first_name).to.eql(\"John\");",
+							"});",
+							"",
+							"pm.test(\"Last_name ID equasl Smith\", function () {",
+							"    pm.expect(jsonData[0].last_name).to.eql(\"Smith\");",
+							"});",
+							"",
+							"postman.setNextRequest(\"Patch existing employee\");"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://ec2-18-188-111-23.us-east-2.compute.amazonaws.com:8080/WSTest/employee?id=10",
+					"protocol": "http",
+					"host": [
+						"ec2-18-188-111-23",
+						"us-east-2",
+						"compute",
+						"amazonaws",
+						"com"
+					],
+					"port": "8080",
+					"path": [
+						"WSTest",
+						"employee"
+					],
+					"query": [
+						{
+							"key": "id",
+							"value": "10"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Patch existing employee",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "24a6982f-98a2-409f-b7d3-b027374e860f",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Status is Updated\", function () {",
+							"    pm.expect(pm.response.text()).to.include(\"Updated\");",
+							"});",
+							"",
+							"pm.test(\"Response time is less than 300ms\", function () {",
+							"    pm.expect(pm.response.responseTime).to.be.below(300);",
+							"});",
+							"",
+							"pm.test(\"Content-Type is present\", function () {",
+							"    pm.response.to.have.header(\"Content-Type\");",
+							"});",
+							"",
+							"pm.test(\"Connection is present\", function () {",
+							"    pm.response.to.have.header(\"connection\");",
+							"});",
+							"",
+							"pm.test(\"Keep-alive is present\", function () {",
+							"    pm.response.to.have.header(\"keep-alive\");",
+							"});",
+							"",
+							"pm.test(\"X-Powered-By isn't present\", function () {",
+							"    pm.response.to.not.have.header(\"X-Powered-By\");",
+							"});",
+							"",
+							"pm.test(\"Server isn't present\", function () {",
+							"    pm.response.to.not.have.header(\"Server\");",
+							"});",
+							"",
+							"postman.setNextRequest(\"Patch existing employee postcondition\");"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"url": {
+					"raw": "http://ec2-18-188-111-23.us-east-2.compute.amazonaws.com:8080/WSTest/employee?id=10&first_name=Joanne&last_name=Wesson",
+					"protocol": "http",
+					"host": [
+						"ec2-18-188-111-23",
+						"us-east-2",
+						"compute",
+						"amazonaws",
+						"com"
+					],
+					"port": "8080",
+					"path": [
+						"WSTest",
+						"employee"
+					],
+					"query": [
+						{
+							"key": "id",
+							"value": "10"
+						},
+						{
+							"key": "first_name",
+							"value": "Joanne"
+						},
+						{
+							"key": "last_name",
+							"value": "Wesson"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Patch existing employee postcondition",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "2d216def-939a-4ae8-857c-4ce7c4c4cac2",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"pm.test(\"Response time is less than 300ms\", function () {",
+							"    pm.expect(pm.response.responseTime).to.be.below(300);",
+							"});",
+							"",
+							"const jsonData = pm.response.json();",
+							"",
+							"var schema = {",
+							"    \"type\": \"array\",",
+							"        \"items\": [",
+							"            {",
+							"            \"type\": \"object\",",
+							"            \"properties\": {",
+							"                \"last_name\": {",
+							"                    \"type\": \"string\",",
+							"                    \"pattern\": \"^[A-Z]+[a-z]*$\"",
+							"                },",
+							"                \"id\": {",
+							"                    \"type\": \"integer\"",
+							"                },",
+							"                \"first_name\": {",
+							"                    \"type\": \"string\",",
+							"                    \"pattern\": \"^[A-Z]+[a-z]*$\"",
+							"                } ",
+							"            },",
+							"            \"required\": [",
+							"                \"last_name\",",
+							"                \"id\",",
+							"                \"first_name\"",
+							"            ]",
+							"            }",
+							"        ]",
+							"};",
+							"",
+							"pm.test('Schema is valid', function () {",
+							"    pm.expect(tv4.validate(jsonData, schema)).to.be.true;",
+							"});",
+							"",
+							"pm.test(\"Record ID equasl 10\", function () {",
+							"    pm.expect(jsonData[0].id).to.eql(10);",
+							"});",
+							"",
+							"pm.test(\"Record first_name equasl Joanne\", function () {",
+							"    pm.expect(jsonData[0].first_name).to.eql(\"Joanne\");",
+							"});",
+							"",
+							"pm.test(\"Last_name ID equasl Wesson\", function () {",
+							"    pm.expect(jsonData[0].last_name).to.eql(\"Wesson\");",
+							"});",
+							"",
+							"postman.setNextRequest(\"Patch first_name of existing employee\");"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://ec2-18-188-111-23.us-east-2.compute.amazonaws.com:8080/WSTest/employee?id=10",
+					"protocol": "http",
+					"host": [
+						"ec2-18-188-111-23",
+						"us-east-2",
+						"compute",
+						"amazonaws",
+						"com"
+					],
+					"port": "8080",
+					"path": [
+						"WSTest",
+						"employee"
+					],
+					"query": [
+						{
+							"key": "id",
+							"value": "10"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Patch first_name of existing employee",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "00065ce5-def0-4faf-b464-9d4d21f8111c",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Status is Updated\", function () {",
+							"    pm.expect(pm.response.text()).to.include(\"Updated\");",
+							"});",
+							"",
+							"pm.test(\"Response time is less than 300ms\", function () {",
+							"    pm.expect(pm.response.responseTime).to.be.below(300);",
+							"});",
+							"",
+							"pm.test(\"Content-Type is present\", function () {",
+							"    pm.response.to.have.header(\"Content-Type\");",
+							"});",
+							"",
+							"pm.test(\"Connection is present\", function () {",
+							"    pm.response.to.have.header(\"connection\");",
+							"});",
+							"",
+							"pm.test(\"Keep-alive is present\", function () {",
+							"    pm.response.to.have.header(\"keep-alive\");",
+							"});",
+							"",
+							"pm.test(\"X-Powered-By isn't present\", function () {",
+							"    pm.response.to.not.have.header(\"X-Powered-By\");",
+							"});",
+							"",
+							"pm.test(\"Server isn't present\", function () {",
+							"    pm.response.to.not.have.header(\"Server\");",
+							"});",
+							"",
+							"postman.setNextRequest(\"Patch first_name of existing employee postcondition\");"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"url": {
+					"raw": "http://ec2-18-188-111-23.us-east-2.compute.amazonaws.com:8080/WSTest/employee?id=10&first_name=John",
+					"protocol": "http",
+					"host": [
+						"ec2-18-188-111-23",
+						"us-east-2",
+						"compute",
+						"amazonaws",
+						"com"
+					],
+					"port": "8080",
+					"path": [
+						"WSTest",
+						"employee"
+					],
+					"query": [
+						{
+							"key": "id",
+							"value": "10"
+						},
+						{
+							"key": "first_name",
+							"value": "John"
+						},
+						{
+							"key": "",
+							"value": "",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Patch first_name of existing employee postcondition",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "c1b4c317-35c8-41cf-a673-1481eb4e5f7d",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"pm.test(\"Response time is less than 300ms\", function () {",
+							"    pm.expect(pm.response.responseTime).to.be.below(300);",
+							"});",
+							"",
+							"const jsonData = pm.response.json();",
+							"",
+							"var schema = {",
+							"    \"type\": \"array\",",
+							"        \"items\": [",
+							"            {",
+							"            \"type\": \"object\",",
+							"            \"properties\": {",
+							"                \"last_name\": {",
+							"                    \"type\": \"string\",",
+							"                    \"pattern\": \"^[A-Z]+[a-z]*$\"",
+							"                },",
+							"                \"id\": {",
+							"                    \"type\": \"integer\"",
+							"                },",
+							"                \"first_name\": {",
+							"                    \"type\": \"string\",",
+							"                    \"pattern\": \"^[A-Z]+[a-z]*$\"",
+							"                } ",
+							"            },",
+							"            \"required\": [",
+							"                \"last_name\",",
+							"                \"id\",",
+							"                \"first_name\"",
+							"            ]",
+							"            }",
+							"        ]",
+							"};",
+							"",
+							"pm.test('Schema is valid', function () {",
+							"    pm.expect(tv4.validate(jsonData, schema)).to.be.true;",
+							"});",
+							"",
+							"pm.test(\"Record ID equasl 10\", function () {",
+							"    pm.expect(jsonData[0].id).to.eql(10);",
+							"});",
+							"",
+							"pm.test(\"Record first_name equasl John\", function () {",
+							"    pm.expect(jsonData[0].first_name).to.eql(\"John\");",
+							"});",
+							"",
+							"pm.test(\"Last_name ID equasl Smith\", function () {",
+							"    pm.expect(jsonData[0].last_name).to.eql(\"Wesson\");",
+							"});",
+							"",
+							"postman.setNextRequest(\"Patch last_name of existing employee\");"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://ec2-18-188-111-23.us-east-2.compute.amazonaws.com:8080/WSTest/employee?id=10",
+					"protocol": "http",
+					"host": [
+						"ec2-18-188-111-23",
+						"us-east-2",
+						"compute",
+						"amazonaws",
+						"com"
+					],
+					"port": "8080",
+					"path": [
+						"WSTest",
+						"employee"
+					],
+					"query": [
+						{
+							"key": "id",
+							"value": "10"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Patch last_name of existing employee",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "1c06c0a0-24be-4448-8219-e34ccc8ddaae",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Status is Updated\", function () {",
+							"    pm.expect(pm.response.text()).to.include(\"Updated\");",
+							"});",
+							"",
+							"pm.test(\"Response time is less than 300ms\", function () {",
+							"    pm.expect(pm.response.responseTime).to.be.below(300);",
+							"});",
+							"",
+							"pm.test(\"Content-Type is present\", function () {",
+							"    pm.response.to.have.header(\"Content-Type\");",
+							"});",
+							"",
+							"pm.test(\"Connection is present\", function () {",
+							"    pm.response.to.have.header(\"connection\");",
+							"});",
+							"",
+							"pm.test(\"Keep-alive is present\", function () {",
+							"    pm.response.to.have.header(\"keep-alive\");",
+							"});",
+							"",
+							"pm.test(\"X-Powered-By isn't present\", function () {",
+							"    pm.response.to.not.have.header(\"X-Powered-By\");",
+							"});",
+							"",
+							"pm.test(\"Server isn't present\", function () {",
+							"    pm.response.to.not.have.header(\"Server\");",
+							"});",
+							"",
+							"postman.setNextRequest(\"Patch last_name of existing employee postcondition\");"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"url": {
+					"raw": "http://ec2-18-188-111-23.us-east-2.compute.amazonaws.com:8080/WSTest/employee?id=10&last_name=Smith",
+					"protocol": "http",
+					"host": [
+						"ec2-18-188-111-23",
+						"us-east-2",
+						"compute",
+						"amazonaws",
+						"com"
+					],
+					"port": "8080",
+					"path": [
+						"WSTest",
+						"employee"
+					],
+					"query": [
+						{
+							"key": "id",
+							"value": "10"
+						},
+						{
+							"key": "last_name",
+							"value": "Smith"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Patch last_name of existing employee postcondition",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "f2bed04c-48a8-43d9-b826-367ac8aafee8",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"pm.test(\"Response time is less than 300ms\", function () {",
+							"    pm.expect(pm.response.responseTime).to.be.below(300);",
+							"});",
+							"",
+							"const jsonData = pm.response.json();",
+							"",
+							"var schema = {",
+							"    \"type\": \"array\",",
+							"        \"items\": [",
+							"            {",
+							"            \"type\": \"object\",",
+							"            \"properties\": {",
+							"                \"last_name\": {",
+							"                    \"type\": \"string\",",
+							"                    \"pattern\": \"^[A-Z]+[a-z]*$\"",
+							"                },",
+							"                \"id\": {",
+							"                    \"type\": \"integer\"",
+							"                },",
+							"                \"first_name\": {",
+							"                    \"type\": \"string\",",
+							"                    \"pattern\": \"^[A-Z]+[a-z]*$\"",
+							"                } ",
+							"            },",
+							"            \"required\": [",
+							"                \"last_name\",",
+							"                \"id\",",
+							"                \"first_name\"",
+							"            ]",
+							"            }",
+							"        ]",
+							"};",
+							"",
+							"pm.test('Schema is valid', function () {",
+							"    pm.expect(tv4.validate(jsonData, schema)).to.be.true;",
+							"});",
+							"",
+							"pm.test(\"Record ID equasl 10\", function () {",
+							"    pm.expect(jsonData[0].id).to.eql(10);",
+							"});",
+							"",
+							"pm.test(\"Record first_name equasl John\", function () {",
+							"    pm.expect(jsonData[0].first_name).to.eql(\"John\");",
+							"});",
+							"",
+							"pm.test(\"Last_name ID equasl Smith\", function () {",
+							"    pm.expect(jsonData[0].last_name).to.eql(\"Smith\");",
+							"});",
+							"",
+							"postman.setNextRequest(\"Delete existing employee\");"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://ec2-18-188-111-23.us-east-2.compute.amazonaws.com:8080/WSTest/employee?id=10",
+					"protocol": "http",
+					"host": [
+						"ec2-18-188-111-23",
+						"us-east-2",
+						"compute",
+						"amazonaws",
+						"com"
+					],
+					"port": "8080",
+					"path": [
+						"WSTest",
+						"employee"
+					],
+					"query": [
+						{
+							"key": "id",
+							"value": "10"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete existing employee",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "83cf4b9a-2603-4be3-81b1-954361dbf9ca",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Status is Deleted\", function () {",
+							"    pm.expect(pm.response.text()).to.include(\"Deleted\");",
+							"});",
+							"",
+							"pm.test(\"Response time is less than 300ms\", function () {",
+							"    pm.expect(pm.response.responseTime).to.be.below(300);",
+							"});",
+							"",
+							"pm.test(\"Content-Type is present\", function () {",
+							"    pm.response.to.have.header(\"Content-Type\");",
+							"});",
+							"",
+							"pm.test(\"Connection is present\", function () {",
+							"    pm.response.to.have.header(\"connection\");",
+							"});",
+							"",
+							"pm.test(\"Keep-alive is present\", function () {",
+							"    pm.response.to.have.header(\"keep-alive\");",
+							"});",
+							"",
+							"pm.test(\"X-Powered-By isn't present\", function () {",
+							"    pm.response.to.not.have.header(\"X-Powered-By\");",
+							"});",
+							"",
+							"pm.test(\"Server isn't present\", function () {",
+							"    pm.response.to.not.have.header(\"Server\");",
+							"});",
+							"",
+							"postman.setNextRequest(\"Delete existing employee postcondition\");"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://ec2-18-188-111-23.us-east-2.compute.amazonaws.com:8080/WSTest/employee?id=10",
+					"protocol": "http",
+					"host": [
+						"ec2-18-188-111-23",
+						"us-east-2",
+						"compute",
+						"amazonaws",
+						"com"
+					],
+					"port": "8080",
+					"path": [
+						"WSTest",
+						"employee"
+					],
+					"query": [
+						{
+							"key": "id",
+							"value": "10"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete existing employee postcondition",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "7ff1d53f-d5c2-4642-af21-b639664f4700",
+						"exec": [
+							"pm.test(\"Record doesn't exist\", function () {",
+							"    pm.response.to.have.status(404);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://ec2-18-188-111-23.us-east-2.compute.amazonaws.com:8080/WSTest/employee?id=10",
+					"protocol": "http",
+					"host": [
+						"ec2-18-188-111-23",
+						"us-east-2",
+						"compute",
+						"amazonaws",
+						"com"
+					],
+					"port": "8080",
+					"path": [
+						"WSTest",
+						"employee"
+					],
+					"query": [
+						{
+							"key": "id",
+							"value": "10"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"variable": [
+		{
+			"id": "9385b6be-6784-498b-be9d-57c042214d11",
+			"key": "apiJson",
+			"value": ""
+		}
+	],
+	"protocolProfileBehavior": {}
+}

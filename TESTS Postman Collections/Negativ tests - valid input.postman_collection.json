@@ -1,0 +1,321 @@
+{
+	"info": {
+		"_postman_id": "a3e71eeb-f9bc-4099-a222-d0dca976d487",
+		"name": "Negativ tests - valid input",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Get a non-existing employee",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "39a1bd3d-e053-49d3-a44d-ab86e341c87a",
+						"exec": [
+							"pm.test(\"Status code is 404\", function () {",
+							"    pm.response.to.have.status(404);",
+							"});",
+							"pm.test(\"Response time is less than 300ms\", function () {",
+							"    pm.expect(pm.response.responseTime).to.be.below(300);",
+							"});",
+							"",
+							"const jsonData = pm.response.json();",
+							"",
+							"var schema = {",
+							"    \"type\": \"array\",",
+							"        \"items\": [",
+							"        ]",
+							"};",
+							"",
+							"pm.test('Schema is valid', function () {",
+							"    pm.expect(tv4.validate(jsonData, schema)).to.be.true;",
+							"});",
+							"",
+							"pm.test(\"Content-Type is present\", function () {",
+							"    pm.response.to.have.header(\"Content-Type\");",
+							"});",
+							"",
+							"pm.test(\"Content-Type header is application/json\", () => {",
+							"  pm.expect(pm.response.headers.get('Content-Type')).to.eql('application/json');",
+							"});",
+							"",
+							"pm.test(\"Connection is present\", function () {",
+							"    pm.response.to.have.header(\"connection\");",
+							"});",
+							"",
+							"pm.test(\"Keep-alive is present\", function () {",
+							"    pm.response.to.have.header(\"keep-alive\");",
+							"});",
+							"",
+							"pm.test(\"X-Powered-By isn't present\", function () {",
+							"    pm.response.to.not.have.header(\"X-Powered-By\");",
+							"});",
+							"",
+							"pm.test(\"Server isn't present\", function () {",
+							"    pm.response.to.not.have.header(\"Server\");",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://ec2-18-188-111-23.us-east-2.compute.amazonaws.com:8080/WSTest/employee?id=8",
+					"protocol": "http",
+					"host": [
+						"ec2-18-188-111-23",
+						"us-east-2",
+						"compute",
+						"amazonaws",
+						"com"
+					],
+					"port": "8080",
+					"path": [
+						"WSTest",
+						"employee"
+					],
+					"query": [
+						{
+							"key": "id",
+							"value": "8"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Post an employee with an alredy existing id",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "f22820f8-b4bc-4002-8b78-4e240f1c8b31",
+						"exec": [
+							"pm.test(\"Status code is 400\", function () {",
+							"    pm.response.to.have.status(400);",
+							"});",
+							"",
+							"pm.test(\"Error message validate\", function () {",
+							"    pm.expect(pm.response.text()).to.include(\"Can not insert the record. The record already exists.\");",
+							"});",
+							"",
+							"pm.test(\"Response time is less than 300ms\", function () {",
+							"    pm.expect(pm.response.responseTime).to.be.below(300);",
+							"});",
+							"",
+							"pm.test(\"Content-Type is present\", function () {",
+							"    pm.response.to.have.header(\"Content-Type\");",
+							"});",
+							"",
+							"pm.test(\"Connection is present\", function () {",
+							"    pm.response.to.have.header(\"connection\");",
+							"});",
+							"",
+							"pm.test(\"X-Powered-By isn't present\", function () {",
+							"    pm.response.to.not.have.header(\"X-Powered-By\");",
+							"});",
+							"",
+							"pm.test(\"Server isn't present\", function () {",
+							"    pm.response.to.not.have.header(\"Server\");",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://ec2-18-188-111-23.us-east-2.compute.amazonaws.com:8080/WSTest/employee?id=3&first_name=John&last_name=Smith",
+					"protocol": "http",
+					"host": [
+						"ec2-18-188-111-23",
+						"us-east-2",
+						"compute",
+						"amazonaws",
+						"com"
+					],
+					"port": "8080",
+					"path": [
+						"WSTest",
+						"employee"
+					],
+					"query": [
+						{
+							"key": "id",
+							"value": "3"
+						},
+						{
+							"key": "first_name",
+							"value": "John"
+						},
+						{
+							"key": "last_name",
+							"value": "Smith"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Patch a non-existing employee",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "d5a05e18-fe40-412a-9bd1-ccd1681f0033",
+						"exec": [
+							"pm.test(\"Status code is 404\", function () {",
+							"    pm.response.to.have.status(404);",
+							"});",
+							"",
+							"pm.test(\"Error message validate\", function () {",
+							"    pm.expect(pm.response.text()).to.include(\"Can not update the record. The record doesn't exist.\");",
+							"});",
+							"",
+							"pm.test(\"Response time is less than 300ms\", function () {",
+							"    pm.expect(pm.response.responseTime).to.be.below(300);",
+							"});",
+							"",
+							"pm.test(\"Content-Type is present\", function () {",
+							"    pm.response.to.have.header(\"Content-Type\");",
+							"});",
+							"",
+							"pm.test(\"Connection is present\", function () {",
+							"    pm.response.to.have.header(\"connection\");",
+							"});",
+							"",
+							"pm.test(\"X-Powered-By isn't present\", function () {",
+							"    pm.response.to.not.have.header(\"X-Powered-By\");",
+							"});",
+							"",
+							"pm.test(\"Server isn't present\", function () {",
+							"    pm.response.to.not.have.header(\"Server\");",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"url": {
+					"raw": "http://ec2-18-188-111-23.us-east-2.compute.amazonaws.com:8080/WSTest/employee?id=8&first_name=Joanne&last_name=Wesson",
+					"protocol": "http",
+					"host": [
+						"ec2-18-188-111-23",
+						"us-east-2",
+						"compute",
+						"amazonaws",
+						"com"
+					],
+					"port": "8080",
+					"path": [
+						"WSTest",
+						"employee"
+					],
+					"query": [
+						{
+							"key": "id",
+							"value": "8"
+						},
+						{
+							"key": "first_name",
+							"value": "Joanne"
+						},
+						{
+							"key": "last_name",
+							"value": "Wesson"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete a non-existing employee",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "27cf6e4e-0296-49c1-be56-47ed41a423e4",
+						"exec": [
+							"pm.test(\"Status code is 404\", function () {",
+							"    pm.response.to.have.status(404);",
+							"});",
+							"",
+							"pm.test(\"Error message validate\", function () {",
+							"    pm.expect(pm.response.text()).to.include(\"Can not delete the record. The record doesn't exist\");",
+							"});",
+							"",
+							"pm.test(\"Response time is less than 300ms\", function () {",
+							"    pm.expect(pm.response.responseTime).to.be.below(300);",
+							"});",
+							"",
+							"pm.test(\"Content-Type is present\", function () {",
+							"    pm.response.to.have.header(\"Content-Type\");",
+							"});",
+							"",
+							"pm.test(\"Connection is present\", function () {",
+							"    pm.response.to.have.header(\"connection\");",
+							"});",
+							"",
+							"pm.test(\"Keep-alive is present\", function () {",
+							"    pm.response.to.have.header(\"keep-alive\");",
+							"});",
+							"",
+							"pm.test(\"X-Powered-By isn't present\", function () {",
+							"    pm.response.to.not.have.header(\"X-Powered-By\");",
+							"});",
+							"",
+							"pm.test(\"Server isn't present\", function () {",
+							"    pm.response.to.not.have.header(\"Server\");",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://ec2-18-188-111-23.us-east-2.compute.amazonaws.com:8080/WSTest/employee?id=8",
+					"protocol": "http",
+					"host": [
+						"ec2-18-188-111-23",
+						"us-east-2",
+						"compute",
+						"amazonaws",
+						"com"
+					],
+					"port": "8080",
+					"path": [
+						"WSTest",
+						"employee"
+					],
+					"query": [
+						{
+							"key": "id",
+							"value": "8"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}

@@ -1,0 +1,2137 @@
+{
+	"info": {
+		"_postman_id": "92d48d8c-7bac-402a-9031-8b9937bd694d",
+		"name": "Negative testing – invalid input",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Get an employee with missing id",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "e31ad3b2-c306-41cd-a805-c25a4e5dfe93",
+						"exec": [
+							"pm.test(\"Status code is 400\", function () {",
+							"    pm.response.to.have.status(400);",
+							"});",
+							"pm.test(\"Response time is less than 300ms\", function () {",
+							"    pm.expect(pm.response.responseTime).to.be.below(300);",
+							"});",
+							"",
+							"const jsonData = pm.response.json();",
+							"",
+							"var schema = {",
+							"    \"type\": \"array\",",
+							"        \"items\": [",
+							"        ]",
+							"};",
+							"",
+							"pm.test('Schema is valid', function () {",
+							"    pm.expect(tv4.validate(jsonData, schema)).to.be.true;",
+							"});",
+							"",
+							"pm.test(\"Content-Type is present\", function () {",
+							"    pm.response.to.have.header(\"Content-Type\");",
+							"});",
+							"",
+							"pm.test(\"Content-Type header is application/json\", () => {",
+							"  pm.expect(pm.response.headers.get('Content-Type')).to.eql('application/json');",
+							"});",
+							"",
+							"pm.test(\"Connection is present\", function () {",
+							"    pm.response.to.have.header(\"connection\");",
+							"});",
+							"",
+							"pm.test(\"X-Powered-By isn't present\", function () {",
+							"    pm.response.to.not.have.header(\"X-Powered-By\");",
+							"});",
+							"",
+							"pm.test(\"Server isn't present\", function () {",
+							"    pm.response.to.not.have.header(\"Server\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://ec2-18-188-111-23.us-east-2.compute.amazonaws.com:8080/WSTest/employee",
+					"protocol": "http",
+					"host": [
+						"ec2-18-188-111-23",
+						"us-east-2",
+						"compute",
+						"amazonaws",
+						"com"
+					],
+					"port": "8080",
+					"path": [
+						"WSTest",
+						"employee"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Post an employee with missing id",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "6174d3a8-d81b-4a57-8e72-f02009877100",
+						"exec": [
+							"pm.test(\"Status code is 400\", function () {",
+							"    pm.response.to.have.status(400);",
+							"});",
+							"",
+							"pm.test(\"Error message validate\", function () {",
+							"    pm.expect(pm.response.text()).to.include(\"ID should be a positive integer\");",
+							"});",
+							"",
+							"pm.test(\"Response time is less than 300ms\", function () {",
+							"    pm.expect(pm.response.responseTime).to.be.below(300);",
+							"});",
+							"",
+							"pm.test(\"Content-Type is present\", function () {",
+							"    pm.response.to.have.header(\"Content-Type\");",
+							"});",
+							"",
+							"pm.test(\"Connection is present\", function () {",
+							"    pm.response.to.have.header(\"connection\");",
+							"});",
+							"",
+							"pm.test(\"X-Powered-By isn't present\", function () {",
+							"    pm.response.to.not.have.header(\"X-Powered-By\");",
+							"});",
+							"",
+							"pm.test(\"Server isn't present\", function () {",
+							"    pm.response.to.not.have.header(\"Server\");",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://ec2-18-188-111-23.us-east-2.compute.amazonaws.com:8080/WSTest/employee?first_name=John&last_name=Smith",
+					"protocol": "http",
+					"host": [
+						"ec2-18-188-111-23",
+						"us-east-2",
+						"compute",
+						"amazonaws",
+						"com"
+					],
+					"port": "8080",
+					"path": [
+						"WSTest",
+						"employee"
+					],
+					"query": [
+						{
+							"key": "first_name",
+							"value": "John"
+						},
+						{
+							"key": "last_name",
+							"value": "Smith"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Post an employee with missing first_name",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "dc10e689-828a-4369-a705-cd35d225534d",
+						"exec": [
+							"pm.test(\"Status code is 400\", function () {",
+							"    pm.response.to.have.status(400);",
+							"});",
+							"",
+							"pm.test(\"Error message validate\", function () {",
+							"    pm.expect(pm.response.text()).to.include(\"First Name can not be empty, can contain only letters and need to start with capital leter\");",
+							"});",
+							"",
+							"pm.test(\"Response time is less than 300ms\", function () {",
+							"    pm.expect(pm.response.responseTime).to.be.below(300);",
+							"});",
+							"",
+							"pm.test(\"Content-Type is present\", function () {",
+							"    pm.response.to.have.header(\"Content-Type\");",
+							"});",
+							"",
+							"pm.test(\"Connection is present\", function () {",
+							"    pm.response.to.have.header(\"connection\");",
+							"});",
+							"",
+							"pm.test(\"X-Powered-By isn't present\", function () {",
+							"    pm.response.to.not.have.header(\"X-Powered-By\");",
+							"});",
+							"",
+							"pm.test(\"Server isn't present\", function () {",
+							"    pm.response.to.not.have.header(\"Server\");",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://ec2-18-188-111-23.us-east-2.compute.amazonaws.com:8080/WSTest/employee?id=3&last_name=Smith",
+					"protocol": "http",
+					"host": [
+						"ec2-18-188-111-23",
+						"us-east-2",
+						"compute",
+						"amazonaws",
+						"com"
+					],
+					"port": "8080",
+					"path": [
+						"WSTest",
+						"employee"
+					],
+					"query": [
+						{
+							"key": "id",
+							"value": "3"
+						},
+						{
+							"key": "last_name",
+							"value": "Smith"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Post an employee with missing last_name",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "6d726060-4f41-4d4b-a89d-89b3a7a00c4e",
+						"exec": [
+							"pm.test(\"Status code is 400\", function () {",
+							"    pm.response.to.have.status(400);",
+							"});",
+							"",
+							"pm.test(\"Error message validate\", function () {",
+							"    pm.expect(pm.response.text()).to.include(\"Last Name can not be empty, can contain only letters and need to start with capital leter\");",
+							"});",
+							"",
+							"pm.test(\"Response time is less than 300ms\", function () {",
+							"    pm.expect(pm.response.responseTime).to.be.below(300);",
+							"});",
+							"",
+							"pm.test(\"Content-Type is present\", function () {",
+							"    pm.response.to.have.header(\"Content-Type\");",
+							"});",
+							"",
+							"pm.test(\"Connection is present\", function () {",
+							"    pm.response.to.have.header(\"connection\");",
+							"});",
+							"",
+							"pm.test(\"X-Powered-By isn't present\", function () {",
+							"    pm.response.to.not.have.header(\"X-Powered-By\");",
+							"});",
+							"",
+							"pm.test(\"Server isn't present\", function () {",
+							"    pm.response.to.not.have.header(\"Server\");",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://ec2-18-188-111-23.us-east-2.compute.amazonaws.com:8080/WSTest/employee?id=3&first_name=John",
+					"protocol": "http",
+					"host": [
+						"ec2-18-188-111-23",
+						"us-east-2",
+						"compute",
+						"amazonaws",
+						"com"
+					],
+					"port": "8080",
+					"path": [
+						"WSTest",
+						"employee"
+					],
+					"query": [
+						{
+							"key": "id",
+							"value": "3"
+						},
+						{
+							"key": "first_name",
+							"value": "John"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Patch an employee with missing id",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "a98c31d4-fff4-4c83-82a4-45e900acb148",
+						"exec": [
+							"pm.test(\"Status code is 400\", function () {",
+							"    pm.response.to.have.status(400);",
+							"});",
+							"",
+							"pm.test(\"Error message validate\", function () {",
+							"    pm.expect(pm.response.text()).to.include(\"ID should be a positive integer\");",
+							"});",
+							"",
+							"pm.test(\"Response time is less than 300ms\", function () {",
+							"    pm.expect(pm.response.responseTime).to.be.below(300);",
+							"});",
+							"",
+							"pm.test(\"Content-Type is present\", function () {",
+							"    pm.response.to.have.header(\"Content-Type\");",
+							"});",
+							"",
+							"pm.test(\"Connection is present\", function () {",
+							"    pm.response.to.have.header(\"connection\");",
+							"});",
+							"",
+							"pm.test(\"X-Powered-By isn't present\", function () {",
+							"    pm.response.to.not.have.header(\"X-Powered-By\");",
+							"});",
+							"",
+							"pm.test(\"Server isn't present\", function () {",
+							"    pm.response.to.not.have.header(\"Server\");",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"url": {
+					"raw": "http://ec2-18-188-111-23.us-east-2.compute.amazonaws.com:8080/WSTest/employee?first_name=Joanne&last_name=Wesson",
+					"protocol": "http",
+					"host": [
+						"ec2-18-188-111-23",
+						"us-east-2",
+						"compute",
+						"amazonaws",
+						"com"
+					],
+					"port": "8080",
+					"path": [
+						"WSTest",
+						"employee"
+					],
+					"query": [
+						{
+							"key": "first_name",
+							"value": "Joanne"
+						},
+						{
+							"key": "last_name",
+							"value": "Wesson"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete an employee with missing id",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "280e7597-d42e-400b-858a-e86f66b6ccff",
+						"exec": [
+							"pm.test(\"Status code is 400\", function () {",
+							"    pm.response.to.have.status(400);",
+							"});",
+							"",
+							"pm.test(\"Error message validate\", function () {",
+							"    pm.expect(pm.response.text()).to.include(\"ID should be a positive integer\");",
+							"});",
+							"",
+							"pm.test(\"Response time is less than 300ms\", function () {",
+							"    pm.expect(pm.response.responseTime).to.be.below(300);",
+							"});",
+							"",
+							"pm.test(\"Content-Type is present\", function () {",
+							"    pm.response.to.have.header(\"Content-Type\");",
+							"});",
+							"",
+							"pm.test(\"Connection is present\", function () {",
+							"    pm.response.to.have.header(\"connection\");",
+							"});",
+							"",
+							"pm.test(\"X-Powered-By isn't present\", function () {",
+							"    pm.response.to.not.have.header(\"X-Powered-By\");",
+							"});",
+							"",
+							"pm.test(\"Server isn't present\", function () {",
+							"    pm.response.to.not.have.header(\"Server\");",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://ec2-18-188-111-23.us-east-2.compute.amazonaws.com:8080/WSTest/employee",
+					"protocol": "http",
+					"host": [
+						"ec2-18-188-111-23",
+						"us-east-2",
+						"compute",
+						"amazonaws",
+						"com"
+					],
+					"port": "8080",
+					"path": [
+						"WSTest",
+						"employee"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get an employee with non-integer id",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "ce9fb3f3-4959-4c30-b185-9096df3f92f5",
+						"exec": [
+							"pm.test(\"Status code is 400\", function () {",
+							"    pm.response.to.have.status(400);",
+							"});",
+							"pm.test(\"Response time is less than 300ms\", function () {",
+							"    pm.expect(pm.response.responseTime).to.be.below(300);",
+							"});",
+							"",
+							"const jsonData = pm.response.json();",
+							"",
+							"var schema = {",
+							"    \"type\": \"array\",",
+							"        \"items\": [",
+							"        ]",
+							"};",
+							"",
+							"pm.test('Schema is valid', function () {",
+							"    pm.expect(tv4.validate(jsonData, schema)).to.be.true;",
+							"});",
+							"",
+							"pm.test(\"Content-Type is present\", function () {",
+							"    pm.response.to.have.header(\"Content-Type\");",
+							"});",
+							"",
+							"pm.test(\"Content-Type header is application/json\", () => {",
+							"  pm.expect(pm.response.headers.get('Content-Type')).to.eql('application/json');",
+							"});",
+							"",
+							"pm.test(\"Connection is present\", function () {",
+							"    pm.response.to.have.header(\"connection\");",
+							"});",
+							"",
+							"pm.test(\"X-Powered-By isn't present\", function () {",
+							"    pm.response.to.not.have.header(\"X-Powered-By\");",
+							"});",
+							"",
+							"pm.test(\"Server isn't present\", function () {",
+							"    pm.response.to.not.have.header(\"Server\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://ec2-18-188-111-23.us-east-2.compute.amazonaws.com:8080/WSTest/employee?id=1q",
+					"protocol": "http",
+					"host": [
+						"ec2-18-188-111-23",
+						"us-east-2",
+						"compute",
+						"amazonaws",
+						"com"
+					],
+					"port": "8080",
+					"path": [
+						"WSTest",
+						"employee"
+					],
+					"query": [
+						{
+							"key": "id",
+							"value": "1q"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get an employee with empty id",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "3ebc9cef-e602-4a71-8cf9-59a24036b45d",
+						"exec": [
+							"pm.test(\"Status code is 400\", function () {",
+							"    pm.response.to.have.status(400);",
+							"});",
+							"pm.test(\"Response time is less than 300ms\", function () {",
+							"    pm.expect(pm.response.responseTime).to.be.below(300);",
+							"});",
+							"",
+							"const jsonData = pm.response.json();",
+							"",
+							"var schema = {",
+							"    \"type\": \"array\",",
+							"        \"items\": [",
+							"        ]",
+							"};",
+							"",
+							"pm.test('Schema is valid', function () {",
+							"    pm.expect(tv4.validate(jsonData, schema)).to.be.true;",
+							"});",
+							"",
+							"pm.test(\"Content-Type is present\", function () {",
+							"    pm.response.to.have.header(\"Content-Type\");",
+							"});",
+							"",
+							"pm.test(\"Content-Type header is application/json\", () => {",
+							"  pm.expect(pm.response.headers.get('Content-Type')).to.eql('application/json');",
+							"});",
+							"",
+							"pm.test(\"Connection is present\", function () {",
+							"    pm.response.to.have.header(\"connection\");",
+							"});",
+							"",
+							"pm.test(\"X-Powered-By isn't present\", function () {",
+							"    pm.response.to.not.have.header(\"X-Powered-By\");",
+							"});",
+							"",
+							"pm.test(\"Server isn't present\", function () {",
+							"    pm.response.to.not.have.header(\"Server\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://ec2-18-188-111-23.us-east-2.compute.amazonaws.com:8080/WSTest/employee?id=",
+					"protocol": "http",
+					"host": [
+						"ec2-18-188-111-23",
+						"us-east-2",
+						"compute",
+						"amazonaws",
+						"com"
+					],
+					"port": "8080",
+					"path": [
+						"WSTest",
+						"employee"
+					],
+					"query": [
+						{
+							"key": "id",
+							"value": ""
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Post an employee with non-integer id",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "1c2013af-86a4-416c-9a17-a15a4a0ab44f",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "bd135216-af34-4da2-90ec-d1d61c962488",
+						"exec": [
+							"pm.test(\"Status code is 400\", function () {",
+							"    pm.response.to.have.status(400);",
+							"});",
+							"",
+							"pm.test(\"Error message validate\", function () {",
+							"    pm.expect(pm.response.text()).to.include(\"ID should be a positive integer\");",
+							"});",
+							"",
+							"pm.test(\"Response time is less than 300ms\", function () {",
+							"    pm.expect(pm.response.responseTime).to.be.below(300);",
+							"});",
+							"",
+							"pm.test(\"Content-Type is present\", function () {",
+							"    pm.response.to.have.header(\"Content-Type\");",
+							"});",
+							"",
+							"pm.test(\"Connection is present\", function () {",
+							"    pm.response.to.have.header(\"connection\");",
+							"});",
+							"",
+							"pm.test(\"X-Powered-By isn't present\", function () {",
+							"    pm.response.to.not.have.header(\"X-Powered-By\");",
+							"});",
+							"",
+							"pm.test(\"Server isn't present\", function () {",
+							"    pm.response.to.not.have.header(\"Server\");",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://ec2-18-188-111-23.us-east-2.compute.amazonaws.com:8080/WSTest/employee?id=1q&first_name=John&last_name=Smith",
+					"protocol": "http",
+					"host": [
+						"ec2-18-188-111-23",
+						"us-east-2",
+						"compute",
+						"amazonaws",
+						"com"
+					],
+					"port": "8080",
+					"path": [
+						"WSTest",
+						"employee"
+					],
+					"query": [
+						{
+							"key": "id",
+							"value": "1q"
+						},
+						{
+							"key": "first_name",
+							"value": "John"
+						},
+						{
+							"key": "last_name",
+							"value": "Smith"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Post an employee with empty id",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "b330dc8d-8d40-4562-bbcc-77585e7e804b",
+						"exec": [
+							"pm.test(\"Status code is 400\", function () {",
+							"    pm.response.to.have.status(400);",
+							"});",
+							"",
+							"pm.test(\"Error message validate\", function () {",
+							"    pm.expect(pm.response.text()).to.include(\"ID should be a positive integer\");",
+							"});",
+							"",
+							"pm.test(\"Response time is less than 300ms\", function () {",
+							"    pm.expect(pm.response.responseTime).to.be.below(300);",
+							"});",
+							"",
+							"pm.test(\"Content-Type is present\", function () {",
+							"    pm.response.to.have.header(\"Content-Type\");",
+							"});",
+							"",
+							"pm.test(\"Connection is present\", function () {",
+							"    pm.response.to.have.header(\"connection\");",
+							"});",
+							"",
+							"pm.test(\"X-Powered-By isn't present\", function () {",
+							"    pm.response.to.not.have.header(\"X-Powered-By\");",
+							"});",
+							"",
+							"pm.test(\"Server isn't present\", function () {",
+							"    pm.response.to.not.have.header(\"Server\");",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://ec2-18-188-111-23.us-east-2.compute.amazonaws.com:8080/WSTest/employee?id&first_name=John&last_name=Smith",
+					"protocol": "http",
+					"host": [
+						"ec2-18-188-111-23",
+						"us-east-2",
+						"compute",
+						"amazonaws",
+						"com"
+					],
+					"port": "8080",
+					"path": [
+						"WSTest",
+						"employee"
+					],
+					"query": [
+						{
+							"key": "id",
+							"value": null
+						},
+						{
+							"key": "first_name",
+							"value": "John"
+						},
+						{
+							"key": "last_name",
+							"value": "Smith"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Post an employee with empty first_name",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "7f3438d1-19b6-441b-9178-66d3bfed9fb5",
+						"exec": [
+							"pm.test(\"Status code is 400\", function () {",
+							"    pm.response.to.have.status(400);",
+							"});",
+							"",
+							"pm.test(\"Error message validate\", function () {",
+							"    pm.expect(pm.response.text()).to.include(\"First Name can not be empty, can contain only letters and need to start with capital leter\");",
+							"});",
+							"",
+							"pm.test(\"Response time is less than 300ms\", function () {",
+							"    pm.expect(pm.response.responseTime).to.be.below(300);",
+							"});",
+							"",
+							"pm.test(\"Content-Type is present\", function () {",
+							"    pm.response.to.have.header(\"Content-Type\");",
+							"});",
+							"",
+							"pm.test(\"Connection is present\", function () {",
+							"    pm.response.to.have.header(\"connection\");",
+							"});",
+							"",
+							"pm.test(\"X-Powered-By isn't present\", function () {",
+							"    pm.response.to.not.have.header(\"X-Powered-By\");",
+							"});",
+							"",
+							"pm.test(\"Server isn't present\", function () {",
+							"    pm.response.to.not.have.header(\"Server\");",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://ec2-18-188-111-23.us-east-2.compute.amazonaws.com:8080/WSTest/employee?id=3&first_name&last_name=Smith",
+					"protocol": "http",
+					"host": [
+						"ec2-18-188-111-23",
+						"us-east-2",
+						"compute",
+						"amazonaws",
+						"com"
+					],
+					"port": "8080",
+					"path": [
+						"WSTest",
+						"employee"
+					],
+					"query": [
+						{
+							"key": "id",
+							"value": "3"
+						},
+						{
+							"key": "first_name",
+							"value": null
+						},
+						{
+							"key": "last_name",
+							"value": "Smith"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Post an employee with first_name contains wrong simbols ",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "78bfc46e-69cc-475b-9b22-945edb015531",
+						"exec": [
+							"pm.test(\"Status code is 400\", function () {",
+							"    pm.response.to.have.status(400);",
+							"});",
+							"",
+							"pm.test(\"Error message validate\", function () {",
+							"    pm.expect(pm.response.text()).to.include(\"First Name can not be empty, can contain only letters and need to start with capital leter\");",
+							"});",
+							"",
+							"pm.test(\"Response time is less than 300ms\", function () {",
+							"    pm.expect(pm.response.responseTime).to.be.below(300);",
+							"});",
+							"",
+							"pm.test(\"Content-Type is present\", function () {",
+							"    pm.response.to.have.header(\"Content-Type\");",
+							"});",
+							"",
+							"pm.test(\"Connection is present\", function () {",
+							"    pm.response.to.have.header(\"connection\");",
+							"});",
+							"",
+							"pm.test(\"X-Powered-By isn't present\", function () {",
+							"    pm.response.to.not.have.header(\"X-Powered-By\");",
+							"});",
+							"",
+							"pm.test(\"Server isn't present\", function () {",
+							"    pm.response.to.not.have.header(\"Server\");",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://ec2-18-188-111-23.us-east-2.compute.amazonaws.com:8080/WSTest/employee?id=3&first_name=T9m&last_name=Smith",
+					"protocol": "http",
+					"host": [
+						"ec2-18-188-111-23",
+						"us-east-2",
+						"compute",
+						"amazonaws",
+						"com"
+					],
+					"port": "8080",
+					"path": [
+						"WSTest",
+						"employee"
+					],
+					"query": [
+						{
+							"key": "id",
+							"value": "3"
+						},
+						{
+							"key": "first_name",
+							"value": "T9m"
+						},
+						{
+							"key": "last_name",
+							"value": "Smith"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Post an employee with first_name started with non-capital letter",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "d87e2f3c-eddc-4506-b9c4-38f577e3a013",
+						"exec": [
+							"pm.test(\"Status code is 400\", function () {",
+							"    pm.response.to.have.status(400);",
+							"});",
+							"",
+							"pm.test(\"Error message validate\", function () {",
+							"    pm.expect(pm.response.text()).to.include(\"First Name can not be empty, can contain only letters and need to start with capital leter\");",
+							"});",
+							"",
+							"pm.test(\"Response time is less than 300ms\", function () {",
+							"    pm.expect(pm.response.responseTime).to.be.below(300);",
+							"});",
+							"",
+							"pm.test(\"Content-Type is present\", function () {",
+							"    pm.response.to.have.header(\"Content-Type\");",
+							"});",
+							"",
+							"pm.test(\"Connection is present\", function () {",
+							"    pm.response.to.have.header(\"connection\");",
+							"});",
+							"",
+							"pm.test(\"X-Powered-By isn't present\", function () {",
+							"    pm.response.to.not.have.header(\"X-Powered-By\");",
+							"});",
+							"",
+							"pm.test(\"Server isn't present\", function () {",
+							"    pm.response.to.not.have.header(\"Server\");",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://ec2-18-188-111-23.us-east-2.compute.amazonaws.com:8080/WSTest/employee?id=3&first_name=tom&last_name=Smith",
+					"protocol": "http",
+					"host": [
+						"ec2-18-188-111-23",
+						"us-east-2",
+						"compute",
+						"amazonaws",
+						"com"
+					],
+					"port": "8080",
+					"path": [
+						"WSTest",
+						"employee"
+					],
+					"query": [
+						{
+							"key": "id",
+							"value": "3"
+						},
+						{
+							"key": "first_name",
+							"value": "tom"
+						},
+						{
+							"key": "last_name",
+							"value": "Smith"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Post an employee with empty last_name",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "efe81a09-393e-43e6-bd91-7e8e7e2428d3",
+						"exec": [
+							"pm.test(\"Status code is 400\", function () {",
+							"    pm.response.to.have.status(400);",
+							"});",
+							"",
+							"pm.test(\"Error message validate\", function () {",
+							"    pm.expect(pm.response.text()).to.include(\"Last Name can not be empty, can contain only letters and need to start with capital leter\");",
+							"});",
+							"",
+							"pm.test(\"Response time is less than 300ms\", function () {",
+							"    pm.expect(pm.response.responseTime).to.be.below(300);",
+							"});",
+							"",
+							"pm.test(\"Content-Type is present\", function () {",
+							"    pm.response.to.have.header(\"Content-Type\");",
+							"});",
+							"",
+							"pm.test(\"Connection is present\", function () {",
+							"    pm.response.to.have.header(\"connection\");",
+							"});",
+							"",
+							"pm.test(\"X-Powered-By isn't present\", function () {",
+							"    pm.response.to.not.have.header(\"X-Powered-By\");",
+							"});",
+							"",
+							"pm.test(\"Server isn't present\", function () {",
+							"    pm.response.to.not.have.header(\"Server\");",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://ec2-18-188-111-23.us-east-2.compute.amazonaws.com:8080/WSTest/employee?id=3&first_name=John&last_name=",
+					"protocol": "http",
+					"host": [
+						"ec2-18-188-111-23",
+						"us-east-2",
+						"compute",
+						"amazonaws",
+						"com"
+					],
+					"port": "8080",
+					"path": [
+						"WSTest",
+						"employee"
+					],
+					"query": [
+						{
+							"key": "id",
+							"value": "3"
+						},
+						{
+							"key": "first_name",
+							"value": "John"
+						},
+						{
+							"key": "last_name",
+							"value": ""
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Post an employee with last_name contains wrong simbols",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "1605146d-bfd8-41c6-80b6-2cfeb7fe5258",
+						"exec": [
+							"pm.test(\"Status code is 400\", function () {",
+							"    pm.response.to.have.status(400);",
+							"});",
+							"",
+							"pm.test(\"Error message validate\", function () {",
+							"    pm.expect(pm.response.text()).to.include(\"Last Name can not be empty, can contain only letters and need to start with capital leter\");",
+							"});",
+							"",
+							"pm.test(\"Response time is less than 300ms\", function () {",
+							"    pm.expect(pm.response.responseTime).to.be.below(300);",
+							"});",
+							"",
+							"pm.test(\"Content-Type is present\", function () {",
+							"    pm.response.to.have.header(\"Content-Type\");",
+							"});",
+							"",
+							"pm.test(\"Connection is present\", function () {",
+							"    pm.response.to.have.header(\"connection\");",
+							"});",
+							"",
+							"pm.test(\"X-Powered-By isn't present\", function () {",
+							"    pm.response.to.not.have.header(\"X-Powered-By\");",
+							"});",
+							"",
+							"pm.test(\"Server isn't present\", function () {",
+							"    pm.response.to.not.have.header(\"Server\");",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://ec2-18-188-111-23.us-east-2.compute.amazonaws.com:8080/WSTest/employee?id=3&first_name=John&last_name=Sm8th",
+					"protocol": "http",
+					"host": [
+						"ec2-18-188-111-23",
+						"us-east-2",
+						"compute",
+						"amazonaws",
+						"com"
+					],
+					"port": "8080",
+					"path": [
+						"WSTest",
+						"employee"
+					],
+					"query": [
+						{
+							"key": "id",
+							"value": "3"
+						},
+						{
+							"key": "first_name",
+							"value": "John"
+						},
+						{
+							"key": "last_name",
+							"value": "Sm8th"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Post an employee with last_name started with non-capital letter",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "ab634603-e13a-426f-ba6c-98cdc23d6092",
+						"exec": [
+							"pm.test(\"Status code is 400\", function () {",
+							"    pm.response.to.have.status(400);",
+							"});",
+							"",
+							"pm.test(\"Error message validate\", function () {",
+							"    pm.expect(pm.response.text()).to.include(\"Last Name can not be empty, can contain only letters and need to start with capital leter\");",
+							"});",
+							"",
+							"pm.test(\"Response time is less than 300ms\", function () {",
+							"    pm.expect(pm.response.responseTime).to.be.below(300);",
+							"});",
+							"",
+							"pm.test(\"Content-Type is present\", function () {",
+							"    pm.response.to.have.header(\"Content-Type\");",
+							"});",
+							"",
+							"pm.test(\"Connection is present\", function () {",
+							"    pm.response.to.have.header(\"connection\");",
+							"});",
+							"",
+							"pm.test(\"X-Powered-By isn't present\", function () {",
+							"    pm.response.to.not.have.header(\"X-Powered-By\");",
+							"});",
+							"",
+							"pm.test(\"Server isn't present\", function () {",
+							"    pm.response.to.not.have.header(\"Server\");",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://ec2-18-188-111-23.us-east-2.compute.amazonaws.com:8080/WSTest/employee?id=3&first_name=John&last_name=smith",
+					"protocol": "http",
+					"host": [
+						"ec2-18-188-111-23",
+						"us-east-2",
+						"compute",
+						"amazonaws",
+						"com"
+					],
+					"port": "8080",
+					"path": [
+						"WSTest",
+						"employee"
+					],
+					"query": [
+						{
+							"key": "id",
+							"value": "3"
+						},
+						{
+							"key": "first_name",
+							"value": "John"
+						},
+						{
+							"key": "last_name",
+							"value": "smith"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Patch an employee with non-integer id",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "deb414e6-efc2-4257-bdac-f4ead950531a",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "6e230894-a659-4a85-9a5b-ee9a8bc280ab",
+						"exec": [
+							"pm.test(\"Status code is 400\", function () {",
+							"    pm.response.to.have.status(400);",
+							"});",
+							"",
+							"pm.test(\"Error message validate\", function () {",
+							"    pm.expect(pm.response.text()).to.include(\"ID should be a positive integer\");",
+							"});",
+							"",
+							"pm.test(\"Response time is less than 300ms\", function () {",
+							"    pm.expect(pm.response.responseTime).to.be.below(300);",
+							"});",
+							"",
+							"pm.test(\"Content-Type is present\", function () {",
+							"    pm.response.to.have.header(\"Content-Type\");",
+							"});",
+							"",
+							"pm.test(\"Connection is present\", function () {",
+							"    pm.response.to.have.header(\"connection\");",
+							"});",
+							"",
+							"pm.test(\"X-Powered-By isn't present\", function () {",
+							"    pm.response.to.not.have.header(\"X-Powered-By\");",
+							"});",
+							"",
+							"pm.test(\"Server isn't present\", function () {",
+							"    pm.response.to.not.have.header(\"Server\");",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"url": {
+					"raw": "http://ec2-18-188-111-23.us-east-2.compute.amazonaws.com:8080/WSTest/employee?id=1q&first_name=John&last_name=Smith",
+					"protocol": "http",
+					"host": [
+						"ec2-18-188-111-23",
+						"us-east-2",
+						"compute",
+						"amazonaws",
+						"com"
+					],
+					"port": "8080",
+					"path": [
+						"WSTest",
+						"employee"
+					],
+					"query": [
+						{
+							"key": "id",
+							"value": "1q"
+						},
+						{
+							"key": "first_name",
+							"value": "John"
+						},
+						{
+							"key": "last_name",
+							"value": "Smith"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Patch an employee with empty id",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "2c55292a-16e0-4e3c-ad82-3921f260aee3",
+						"exec": [
+							"pm.test(\"Status code is 400\", function () {",
+							"    pm.response.to.have.status(400);",
+							"});",
+							"",
+							"pm.test(\"Error message validate\", function () {",
+							"    pm.expect(pm.response.text()).to.include(\"ID should be a positive integer\");",
+							"});",
+							"",
+							"pm.test(\"Response time is less than 300ms\", function () {",
+							"    pm.expect(pm.response.responseTime).to.be.below(300);",
+							"});",
+							"",
+							"pm.test(\"Content-Type is present\", function () {",
+							"    pm.response.to.have.header(\"Content-Type\");",
+							"});",
+							"",
+							"pm.test(\"Connection is present\", function () {",
+							"    pm.response.to.have.header(\"connection\");",
+							"});",
+							"",
+							"pm.test(\"X-Powered-By isn't present\", function () {",
+							"    pm.response.to.not.have.header(\"X-Powered-By\");",
+							"});",
+							"",
+							"pm.test(\"Server isn't present\", function () {",
+							"    pm.response.to.not.have.header(\"Server\");",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"url": {
+					"raw": "http://ec2-18-188-111-23.us-east-2.compute.amazonaws.com:8080/WSTest/employee?id&first_name=John&last_name=Smith",
+					"protocol": "http",
+					"host": [
+						"ec2-18-188-111-23",
+						"us-east-2",
+						"compute",
+						"amazonaws",
+						"com"
+					],
+					"port": "8080",
+					"path": [
+						"WSTest",
+						"employee"
+					],
+					"query": [
+						{
+							"key": "id",
+							"value": null
+						},
+						{
+							"key": "first_name",
+							"value": "John"
+						},
+						{
+							"key": "last_name",
+							"value": "Smith"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Patch an employee with first_name contains wrong simbols",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "10a3f9e8-348c-41f7-b861-e9fbb715a663",
+						"exec": [
+							"pm.test(\"Status code is 400\", function () {",
+							"    pm.response.to.have.status(400);",
+							"});",
+							"",
+							"pm.test(\"Error message validate\", function () {",
+							"    pm.expect(pm.response.text()).to.include(\"First Name can contain only letters and need to start with capital leter\");",
+							"});",
+							"",
+							"pm.test(\"Response time is less than 300ms\", function () {",
+							"    pm.expect(pm.response.responseTime).to.be.below(300);",
+							"});",
+							"",
+							"pm.test(\"Content-Type is present\", function () {",
+							"    pm.response.to.have.header(\"Content-Type\");",
+							"});",
+							"",
+							"pm.test(\"Connection is present\", function () {",
+							"    pm.response.to.have.header(\"connection\");",
+							"});",
+							"",
+							"pm.test(\"X-Powered-By isn't present\", function () {",
+							"    pm.response.to.not.have.header(\"X-Powered-By\");",
+							"});",
+							"",
+							"pm.test(\"Server isn't present\", function () {",
+							"    pm.response.to.not.have.header(\"Server\");",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"url": {
+					"raw": "http://ec2-18-188-111-23.us-east-2.compute.amazonaws.com:8080/WSTest/employee?id=3&first_name=T9m&last_name=Smith",
+					"protocol": "http",
+					"host": [
+						"ec2-18-188-111-23",
+						"us-east-2",
+						"compute",
+						"amazonaws",
+						"com"
+					],
+					"port": "8080",
+					"path": [
+						"WSTest",
+						"employee"
+					],
+					"query": [
+						{
+							"key": "id",
+							"value": "3"
+						},
+						{
+							"key": "first_name",
+							"value": "T9m"
+						},
+						{
+							"key": "last_name",
+							"value": "Smith"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Patch an employee with first_name started with non-capital letter",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "eb84cf1e-9f8c-492d-a053-67ab22b993e3",
+						"exec": [
+							"pm.test(\"Status code is 400\", function () {",
+							"    pm.response.to.have.status(400);",
+							"});",
+							"",
+							"pm.test(\"Error message validate\", function () {",
+							"    pm.expect(pm.response.text()).to.include(\"First Name can contain only letters and need to start with capital leter\");",
+							"});",
+							"",
+							"pm.test(\"Response time is less than 300ms\", function () {",
+							"    pm.expect(pm.response.responseTime).to.be.below(300);",
+							"});",
+							"",
+							"pm.test(\"Content-Type is present\", function () {",
+							"    pm.response.to.have.header(\"Content-Type\");",
+							"});",
+							"",
+							"pm.test(\"Connection is present\", function () {",
+							"    pm.response.to.have.header(\"connection\");",
+							"});",
+							"",
+							"pm.test(\"X-Powered-By isn't present\", function () {",
+							"    pm.response.to.not.have.header(\"X-Powered-By\");",
+							"});",
+							"",
+							"pm.test(\"Server isn't present\", function () {",
+							"    pm.response.to.not.have.header(\"Server\");",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"url": {
+					"raw": "http://ec2-18-188-111-23.us-east-2.compute.amazonaws.com:8080/WSTest/employee?id=3&first_name=tom&last_name=Smith",
+					"protocol": "http",
+					"host": [
+						"ec2-18-188-111-23",
+						"us-east-2",
+						"compute",
+						"amazonaws",
+						"com"
+					],
+					"port": "8080",
+					"path": [
+						"WSTest",
+						"employee"
+					],
+					"query": [
+						{
+							"key": "id",
+							"value": "3"
+						},
+						{
+							"key": "first_name",
+							"value": "tom"
+						},
+						{
+							"key": "last_name",
+							"value": "Smith"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Patch an employee with last_name contains wrong simbols",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "5eb83a41-a0c6-42fe-82be-480767165a9d",
+						"exec": [
+							"pm.test(\"Status code is 400\", function () {",
+							"    pm.response.to.have.status(400);",
+							"});",
+							"",
+							"pm.test(\"Error message validate\", function () {",
+							"    pm.expect(pm.response.text()).to.include(\"Last Name can contain only letters and need to start with capital leter\");",
+							"});",
+							"",
+							"pm.test(\"Response time is less than 300ms\", function () {",
+							"    pm.expect(pm.response.responseTime).to.be.below(300);",
+							"});",
+							"",
+							"pm.test(\"Content-Type is present\", function () {",
+							"    pm.response.to.have.header(\"Content-Type\");",
+							"});",
+							"",
+							"pm.test(\"Connection is present\", function () {",
+							"    pm.response.to.have.header(\"connection\");",
+							"});",
+							"",
+							"pm.test(\"X-Powered-By isn't present\", function () {",
+							"    pm.response.to.not.have.header(\"X-Powered-By\");",
+							"});",
+							"",
+							"pm.test(\"Server isn't present\", function () {",
+							"    pm.response.to.not.have.header(\"Server\");",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"url": {
+					"raw": "http://ec2-18-188-111-23.us-east-2.compute.amazonaws.com:8080/WSTest/employee?id=3&first_name=John&last_name=Sm8th",
+					"protocol": "http",
+					"host": [
+						"ec2-18-188-111-23",
+						"us-east-2",
+						"compute",
+						"amazonaws",
+						"com"
+					],
+					"port": "8080",
+					"path": [
+						"WSTest",
+						"employee"
+					],
+					"query": [
+						{
+							"key": "id",
+							"value": "3"
+						},
+						{
+							"key": "first_name",
+							"value": "John"
+						},
+						{
+							"key": "last_name",
+							"value": "Sm8th"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Patch an employee with last_name started with non-capital letter",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "742f84be-9c75-4c81-879d-a12d468ef163",
+						"exec": [
+							"pm.test(\"Status code is 400\", function () {",
+							"    pm.response.to.have.status(400);",
+							"});",
+							"",
+							"pm.test(\"Error message validate\", function () {",
+							"    pm.expect(pm.response.text()).to.include(\"Last Name can contain only letters and need to start with capital leter\");",
+							"});",
+							"",
+							"pm.test(\"Response time is less than 300ms\", function () {",
+							"    pm.expect(pm.response.responseTime).to.be.below(300);",
+							"});",
+							"",
+							"pm.test(\"Content-Type is present\", function () {",
+							"    pm.response.to.have.header(\"Content-Type\");",
+							"});",
+							"",
+							"pm.test(\"Connection is present\", function () {",
+							"    pm.response.to.have.header(\"connection\");",
+							"});",
+							"",
+							"pm.test(\"X-Powered-By isn't present\", function () {",
+							"    pm.response.to.not.have.header(\"X-Powered-By\");",
+							"});",
+							"",
+							"pm.test(\"Server isn't present\", function () {",
+							"    pm.response.to.not.have.header(\"Server\");",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"url": {
+					"raw": "http://ec2-18-188-111-23.us-east-2.compute.amazonaws.com:8080/WSTest/employee?id=3&first_name=John&last_name=smith",
+					"protocol": "http",
+					"host": [
+						"ec2-18-188-111-23",
+						"us-east-2",
+						"compute",
+						"amazonaws",
+						"com"
+					],
+					"port": "8080",
+					"path": [
+						"WSTest",
+						"employee"
+					],
+					"query": [
+						{
+							"key": "id",
+							"value": "3"
+						},
+						{
+							"key": "first_name",
+							"value": "John"
+						},
+						{
+							"key": "last_name",
+							"value": "smith"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete an employee with empty id",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "2df9acf7-7c3f-4287-bab5-0cb28912eccf",
+						"exec": [
+							"pm.test(\"Status code is 400\", function () {",
+							"    pm.response.to.have.status(400);",
+							"});",
+							"",
+							"pm.test(\"Error message validate\", function () {",
+							"    pm.expect(pm.response.text()).to.include(\"ID should be a positive integer\");",
+							"});",
+							"",
+							"pm.test(\"Response time is less than 300ms\", function () {",
+							"    pm.expect(pm.response.responseTime).to.be.below(300);",
+							"});",
+							"",
+							"pm.test(\"Content-Type is present\", function () {",
+							"    pm.response.to.have.header(\"Content-Type\");",
+							"});",
+							"",
+							"pm.test(\"Connection is present\", function () {",
+							"    pm.response.to.have.header(\"connection\");",
+							"});",
+							"",
+							"pm.test(\"X-Powered-By isn't present\", function () {",
+							"    pm.response.to.not.have.header(\"X-Powered-By\");",
+							"});",
+							"",
+							"pm.test(\"Server isn't present\", function () {",
+							"    pm.response.to.not.have.header(\"Server\");",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://ec2-18-188-111-23.us-east-2.compute.amazonaws.com:8080/WSTest/employee?id",
+					"protocol": "http",
+					"host": [
+						"ec2-18-188-111-23",
+						"us-east-2",
+						"compute",
+						"amazonaws",
+						"com"
+					],
+					"port": "8080",
+					"path": [
+						"WSTest",
+						"employee"
+					],
+					"query": [
+						{
+							"key": "id",
+							"value": null
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete an employee with non-integer id",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "aea9ca1e-9cf7-46e1-9b8e-06c67707f4d2",
+						"exec": [
+							"pm.test(\"Status code is 400\", function () {",
+							"    pm.response.to.have.status(400);",
+							"});",
+							"",
+							"pm.test(\"Error message validate\", function () {",
+							"    pm.expect(pm.response.text()).to.include(\"ID should be a positive integer\");",
+							"});",
+							"",
+							"pm.test(\"Response time is less than 300ms\", function () {",
+							"    pm.expect(pm.response.responseTime).to.be.below(300);",
+							"});",
+							"",
+							"pm.test(\"Content-Type is present\", function () {",
+							"    pm.response.to.have.header(\"Content-Type\");",
+							"});",
+							"",
+							"pm.test(\"Connection is present\", function () {",
+							"    pm.response.to.have.header(\"connection\");",
+							"});",
+							"",
+							"pm.test(\"X-Powered-By isn't present\", function () {",
+							"    pm.response.to.not.have.header(\"X-Powered-By\");",
+							"});",
+							"",
+							"pm.test(\"Server isn't present\", function () {",
+							"    pm.response.to.not.have.header(\"Server\");",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://ec2-18-188-111-23.us-east-2.compute.amazonaws.com:8080/WSTest/employee?id=1q",
+					"protocol": "http",
+					"host": [
+						"ec2-18-188-111-23",
+						"us-east-2",
+						"compute",
+						"amazonaws",
+						"com"
+					],
+					"port": "8080",
+					"path": [
+						"WSTest",
+						"employee"
+					],
+					"query": [
+						{
+							"key": "id",
+							"value": "1q"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Unsupported method POST for endpoint /employees",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "a9263e24-33d5-41a2-bcf7-279ce067552b",
+						"exec": [
+							"pm.test(\"Status code is 405\", function () {",
+							"    pm.response.to.have.status(405);",
+							"});",
+							"pm.test(\"Response time is less than 300ms\", function () {",
+							"    pm.expect(pm.response.responseTime).to.be.below(300);",
+							"});",
+							"",
+							"pm.test(\"Content-Type is present\", function () {",
+							"    pm.response.to.have.header(\"Content-Type\");",
+							"});",
+							"",
+							"pm.test(\"Content-Type header is text/html;charset=utf-8\", () => {",
+							"  pm.expect(pm.response.headers.get('Content-Type')).to.eql('text/html;charset=utf-8');",
+							"});",
+							"",
+							"pm.test(\"Connection is present\", function () {",
+							"    pm.response.to.have.header(\"connection\");",
+							"});",
+							"",
+							"pm.test(\"X-Powered-By isn't present\", function () {",
+							"    pm.response.to.not.have.header(\"X-Powered-By\");",
+							"});",
+							"",
+							"pm.test(\"Server isn't present\", function () {",
+							"    pm.response.to.not.have.header(\"Server\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://ec2-18-188-111-23.us-east-2.compute.amazonaws.com:8080/WSTest/employees",
+					"protocol": "http",
+					"host": [
+						"ec2-18-188-111-23",
+						"us-east-2",
+						"compute",
+						"amazonaws",
+						"com"
+					],
+					"port": "8080",
+					"path": [
+						"WSTest",
+						"employees"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Unsupported method PUT for endpoint /employees",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "65140780-247a-449c-92f8-899f794de210",
+						"exec": [
+							"pm.test(\"Status code is 405\", function () {",
+							"    pm.response.to.have.status(405);",
+							"});",
+							"pm.test(\"Response time is less than 300ms\", function () {",
+							"    pm.expect(pm.response.responseTime).to.be.below(300);",
+							"});",
+							"",
+							"pm.test(\"Content-Type is present\", function () {",
+							"    pm.response.to.have.header(\"Content-Type\");",
+							"});",
+							"",
+							"pm.test(\"Content-Type header is text/html;charset=utf-8\", () => {",
+							"  pm.expect(pm.response.headers.get('Content-Type')).to.eql('text/html;charset=utf-8');",
+							"});",
+							"",
+							"pm.test(\"Connection is present\", function () {",
+							"    pm.response.to.have.header(\"connection\");",
+							"});",
+							"",
+							"pm.test(\"X-Powered-By isn't present\", function () {",
+							"    pm.response.to.not.have.header(\"X-Powered-By\");",
+							"});",
+							"",
+							"pm.test(\"Server isn't present\", function () {",
+							"    pm.response.to.not.have.header(\"Server\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "http://ec2-18-188-111-23.us-east-2.compute.amazonaws.com:8080/WSTest/employees",
+					"protocol": "http",
+					"host": [
+						"ec2-18-188-111-23",
+						"us-east-2",
+						"compute",
+						"amazonaws",
+						"com"
+					],
+					"port": "8080",
+					"path": [
+						"WSTest",
+						"employees"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Unsupported method PATCH for endpoint /employees",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "87d4dba1-9586-49df-ac1a-38d2fb8e8106",
+						"exec": [
+							"pm.test(\"Status code is 405\", function () {",
+							"    pm.response.to.have.status(405);",
+							"});",
+							"pm.test(\"Response time is less than 300ms\", function () {",
+							"    pm.expect(pm.response.responseTime).to.be.below(300);",
+							"});",
+							"",
+							"pm.test(\"Content-Type is present\", function () {",
+							"    pm.response.to.have.header(\"Content-Type\");",
+							"});",
+							"",
+							"pm.test(\"Content-Type header is text/html;charset=utf-8\", () => {",
+							"  pm.expect(pm.response.headers.get('Content-Type')).to.eql('text/html;charset=utf-8');",
+							"});",
+							"",
+							"pm.test(\"Connection is present\", function () {",
+							"    pm.response.to.have.header(\"connection\");",
+							"});",
+							"",
+							"pm.test(\"X-Powered-By isn't present\", function () {",
+							"    pm.response.to.not.have.header(\"X-Powered-By\");",
+							"});",
+							"",
+							"pm.test(\"Server isn't present\", function () {",
+							"    pm.response.to.not.have.header(\"Server\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"url": {
+					"raw": "http://ec2-18-188-111-23.us-east-2.compute.amazonaws.com:8080/WSTest/employees",
+					"protocol": "http",
+					"host": [
+						"ec2-18-188-111-23",
+						"us-east-2",
+						"compute",
+						"amazonaws",
+						"com"
+					],
+					"port": "8080",
+					"path": [
+						"WSTest",
+						"employees"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Unsupported method DELETE for endpoint /employees",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "ab89443d-e6cd-4a83-a354-e5886eec17e0",
+						"exec": [
+							"pm.test(\"Status code is 405\", function () {",
+							"    pm.response.to.have.status(405);",
+							"});",
+							"pm.test(\"Response time is less than 300ms\", function () {",
+							"    pm.expect(pm.response.responseTime).to.be.below(300);",
+							"});",
+							"",
+							"pm.test(\"Content-Type is present\", function () {",
+							"    pm.response.to.have.header(\"Content-Type\");",
+							"});",
+							"",
+							"pm.test(\"Content-Type header is text/html;charset=utf-8\", () => {",
+							"  pm.expect(pm.response.headers.get('Content-Type')).to.eql('text/html;charset=utf-8');",
+							"});",
+							"",
+							"pm.test(\"Connection is present\", function () {",
+							"    pm.response.to.have.header(\"connection\");",
+							"});",
+							"",
+							"pm.test(\"X-Powered-By isn't present\", function () {",
+							"    pm.response.to.not.have.header(\"X-Powered-By\");",
+							"});",
+							"",
+							"pm.test(\"Server isn't present\", function () {",
+							"    pm.response.to.not.have.header(\"Server\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://ec2-18-188-111-23.us-east-2.compute.amazonaws.com:8080/WSTest/employees",
+					"protocol": "http",
+					"host": [
+						"ec2-18-188-111-23",
+						"us-east-2",
+						"compute",
+						"amazonaws",
+						"com"
+					],
+					"port": "8080",
+					"path": [
+						"WSTest",
+						"employees"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Unsupported method PUT for endpoint /employee",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "9e7fd1af-f200-4599-9838-609e0611ddd7",
+						"exec": [
+							"pm.test(\"Status code is 405\", function () {",
+							"    pm.response.to.have.status(405);",
+							"});",
+							"pm.test(\"Response time is less than 300ms\", function () {",
+							"    pm.expect(pm.response.responseTime).to.be.below(300);",
+							"});",
+							"",
+							"pm.test(\"Content-Type is present\", function () {",
+							"    pm.response.to.have.header(\"Content-Type\");",
+							"});",
+							"",
+							"pm.test(\"Content-Type header is text/html;charset=utf-8\", () => {",
+							"  pm.expect(pm.response.headers.get('Content-Type')).to.eql('text/html;charset=utf-8');",
+							"});",
+							"",
+							"pm.test(\"Connection is present\", function () {",
+							"    pm.response.to.have.header(\"connection\");",
+							"});",
+							"",
+							"pm.test(\"X-Powered-By isn't present\", function () {",
+							"    pm.response.to.not.have.header(\"X-Powered-By\");",
+							"});",
+							"",
+							"pm.test(\"Server isn't present\", function () {",
+							"    pm.response.to.not.have.header(\"Server\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "http://ec2-18-188-111-23.us-east-2.compute.amazonaws.com:8080/WSTest/employee",
+					"protocol": "http",
+					"host": [
+						"ec2-18-188-111-23",
+						"us-east-2",
+						"compute",
+						"amazonaws",
+						"com"
+					],
+					"port": "8080",
+					"path": [
+						"WSTest",
+						"employee"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}

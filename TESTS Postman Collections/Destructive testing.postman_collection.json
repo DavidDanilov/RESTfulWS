@@ -1,0 +1,312 @@
+{
+	"info": {
+		"_postman_id": "5be3bb0a-028c-47f4-ae3a-74d86a9c63e3",
+		"name": "Destructive testing",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Get an employee with oversized id",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "3e40e9cd-ae92-4cf8-96fa-76c9c5aca000",
+						"exec": [
+							"pm.test(\"Status code is 400\", function () {",
+							"    pm.response.to.have.status(400);",
+							"});",
+							"pm.test(\"Response time is less than 300ms\", function () {",
+							"    pm.expect(pm.response.responseTime).to.be.below(300);",
+							"});",
+							"",
+							"const jsonData = pm.response.json();",
+							"",
+							"var schema = {",
+							"    \"type\": \"array\",",
+							"        \"items\": [",
+							"        ]",
+							"};",
+							"",
+							"pm.test('Schema is valid', function () {",
+							"    pm.expect(tv4.validate(jsonData, schema)).to.be.true;",
+							"});",
+							"",
+							"pm.test(\"Content-Type is present\", function () {",
+							"    pm.response.to.have.header(\"Content-Type\");",
+							"});",
+							"",
+							"pm.test(\"Content-Type header is application/json\", () => {",
+							"  pm.expect(pm.response.headers.get('Content-Type')).to.eql('application/json');",
+							"});",
+							"",
+							"pm.test(\"Connection is present\", function () {",
+							"    pm.response.to.have.header(\"connection\");",
+							"});",
+							"",
+							"pm.test(\"X-Powered-By isn't present\", function () {",
+							"    pm.response.to.not.have.header(\"X-Powered-By\");",
+							"});",
+							"",
+							"pm.test(\"Server isn't present\", function () {",
+							"    pm.response.to.not.have.header(\"Server\");",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://ec2-18-188-111-23.us-east-2.compute.amazonaws.com:8080/WSTest/employee?id=800000000000000000000000000000000000000",
+					"protocol": "http",
+					"host": [
+						"ec2-18-188-111-23",
+						"us-east-2",
+						"compute",
+						"amazonaws",
+						"com"
+					],
+					"port": "8080",
+					"path": [
+						"WSTest",
+						"employee"
+					],
+					"query": [
+						{
+							"key": "id",
+							"value": "800000000000000000000000000000000000000"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Post an employee with empty payload",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "0e9519f8-e724-4d3b-a4dc-6ba1dc6a09cc",
+						"exec": [
+							"pm.test(\"Status code is 400\", function () {",
+							"    pm.response.to.have.status(400);",
+							"});",
+							"",
+							"pm.test(\"Error message validate\", function () {",
+							"    pm.expect(pm.response.text()).to.include(\"ID should be a positive integer\");",
+							"});",
+							"",
+							"pm.test(\"Response time is less than 300ms\", function () {",
+							"    pm.expect(pm.response.responseTime).to.be.below(300);",
+							"});",
+							"",
+							"pm.test(\"Content-Type is present\", function () {",
+							"    pm.response.to.have.header(\"Content-Type\");",
+							"});",
+							"",
+							"pm.test(\"Connection is present\", function () {",
+							"    pm.response.to.have.header(\"connection\");",
+							"});",
+							"",
+							"pm.test(\"X-Powered-By isn't present\", function () {",
+							"    pm.response.to.not.have.header(\"X-Powered-By\");",
+							"});",
+							"",
+							"pm.test(\"Server isn't present\", function () {",
+							"    pm.response.to.not.have.header(\"Server\");",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://ec2-18-188-111-23.us-east-2.compute.amazonaws.com:8080/WSTest/employee",
+					"protocol": "http",
+					"host": [
+						"ec2-18-188-111-23",
+						"us-east-2",
+						"compute",
+						"amazonaws",
+						"com"
+					],
+					"port": "8080",
+					"path": [
+						"WSTest",
+						"employee"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Post new employee with boundary value of first_name",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "53f3f469-4f52-411f-bbe7-8690f3806e83",
+						"exec": [
+							"pm.test(\"Status code is 400\", function () {",
+							"    pm.response.to.have.status(400);",
+							"});",
+							"",
+							"pm.test(\"Validate error message\", function () {",
+							"    pm.expect(pm.response.text()).to.include(\"Can not insert the record. The record already exists.\");",
+							"});",
+							"",
+							"pm.test(\"Response time is less than 300ms\", function () {",
+							"    pm.expect(pm.response.responseTime).to.be.below(300);",
+							"});",
+							"",
+							"pm.test(\"Content-Type is present\", function () {",
+							"    pm.response.to.have.header(\"Content-Type\");",
+							"});",
+							"",
+							"pm.test(\"Connection is present\", function () {",
+							"    pm.response.to.have.header(\"connection\");",
+							"});",
+							"",
+							"pm.test(\"X-Powered-By isn't present\", function () {",
+							"    pm.response.to.not.have.header(\"X-Powered-By\");",
+							"});",
+							"",
+							"pm.test(\"Server isn't present\", function () {",
+							"    pm.response.to.not.have.header(\"Server\");",
+							"});",
+							"",
+							"postman.setNextRequest(\"Post new employee postcondition\");"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://ec2-18-188-111-23.us-east-2.compute.amazonaws.com:8080/WSTest/employee?id=10&first_name=Johnqqqqqqqqqqqqqqqqq&last_name=Smith",
+					"protocol": "http",
+					"host": [
+						"ec2-18-188-111-23",
+						"us-east-2",
+						"compute",
+						"amazonaws",
+						"com"
+					],
+					"port": "8080",
+					"path": [
+						"WSTest",
+						"employee"
+					],
+					"query": [
+						{
+							"key": "id",
+							"value": "10"
+						},
+						{
+							"key": "first_name",
+							"value": "Johnqqqqqqqqqqqqqqqqq"
+						},
+						{
+							"key": "last_name",
+							"value": "Smith"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Post new employee with wrong parametrs",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "53a228b2-ddaf-486e-8694-66dc6bf2196f",
+						"exec": [
+							"pm.test(\"Status code is 400\", function () {",
+							"    pm.response.to.have.status(400);",
+							"});",
+							"",
+							"pm.test(\"Validate error message\", function () {",
+							"    pm.expect(pm.response.text()).to.include(\"ID should be a positive integer\");",
+							"});",
+							"",
+							"pm.test(\"Response time is less than 300ms\", function () {",
+							"    pm.expect(pm.response.responseTime).to.be.below(300);",
+							"});",
+							"",
+							"pm.test(\"Content-Type is present\", function () {",
+							"    pm.response.to.have.header(\"Content-Type\");",
+							"});",
+							"",
+							"pm.test(\"Connection is present\", function () {",
+							"    pm.response.to.have.header(\"connection\");",
+							"});",
+							"",
+							"pm.test(\"X-Powered-By isn't present\", function () {",
+							"    pm.response.to.not.have.header(\"X-Powered-By\");",
+							"});",
+							"",
+							"pm.test(\"Server isn't present\", function () {",
+							"    pm.response.to.not.have.header(\"Server\");",
+							"});",
+							"",
+							"postman.setNextRequest(\"Post new employee postcondition\");"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://ec2-18-188-111-23.us-east-2.compute.amazonaws.com:8080/WSTest/employee?age=10&weight=150",
+					"protocol": "http",
+					"host": [
+						"ec2-18-188-111-23",
+						"us-east-2",
+						"compute",
+						"amazonaws",
+						"com"
+					],
+					"port": "8080",
+					"path": [
+						"WSTest",
+						"employee"
+					],
+					"query": [
+						{
+							"key": "age",
+							"value": "10"
+						},
+						{
+							"key": "weight",
+							"value": "150"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"variable": [
+		{
+			"id": "c1b891ab-ca90-4e25-b198-938fe3160df2",
+			"key": "apiJson",
+			"value": ""
+		}
+	],
+	"protocolProfileBehavior": {}
+}
