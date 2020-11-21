@@ -17,7 +17,7 @@ final class Crypto {
 	/**
 	 * Encryption Key for AES algorithm 
 	 */
-	private static final String encryptionKey = "098D4A57EDCDC3FC50A2FE478A123C1C";
+	private static final String encryptionKey = "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX";
 	 
 	/**
 	 * Converts hex numbers in String format to array of bytes
